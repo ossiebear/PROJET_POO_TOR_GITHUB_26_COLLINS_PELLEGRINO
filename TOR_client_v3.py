@@ -129,7 +129,7 @@ class Client:
         # Cas spécial : le serveur peut envoyer du texte brut (ex. "Au revoir !")
         try:
             paquet_rep = json.loads(reponse_brute.decode("utf-8"))
-            texte_rep  = self._dechiffrer_reponse(paquet_rep, cle_aes)
+            texte_rep  = self._dechiffrer_reponse(paquet_rep)
         except (json.JSONDecodeError, KeyError):
             # Le serveur a renvoyé un message texte brut (QUIT)
             texte_rep = reponse_brute.decode("utf-8")

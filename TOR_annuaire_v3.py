@@ -3,7 +3,9 @@
 #  Notions : dictionnaire Python, hashlib (fingerprint), sérialisation PEM
 # =============================================================================
 
+import base64
 import hashlib
+import json
 
 class Annuaire:
     """
@@ -65,6 +67,38 @@ class Annuaire:
         for nom, donnees in self._entrees.items():
             fp = donnees["fingerprint"]
             print(f"  • {nom:20s}  fingerprint : {fp[:16]}...{fp[-8:]}")
+
+    def sauvegarder(self, chemin_fichier):
+        """
+        Sauvegarde l'annuaire dans un fichier JSON.
+        Les cles PEM sont encodees en base64 pour rester ASCII.
+        """
+        data = {
+            nom: {
+                "cle_pem": base64.b64encode(donnees["cle_pem"]).decode("ascii"),
+                "fingerprint": donnees["fingerprint"],
+            }
+            for nom, donnees in self._entrees.items()
+        }
+
+        with open(chemin_fichier, "w", encoding="utf-8") as fichier:
+            json.dump(data, fichier, indent=2)
+
+    def charger(self, chemin_fichier):
+        """
+        Charge un annuaire depuis un fichier JSON.
+        Ecrase les entrees locales si elles existent deja.
+        """
+        with open(chemin_fichier, "r", encoding="utf-8") as fichier:
+            data = json.load(fichier)
+
+        self._entrees = {
+            nom: {
+                "cle_pem": base64.b64decode(donnees["cle_pem"]),
+                "fingerprint": donnees["fingerprint"],
+            }
+            for nom, donnees in data.items()
+        }
 
 
 # Instance GLOBALE – importée par TOR_client_v3.py et TOR_serveur_v3.py
