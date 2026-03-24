@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOR Demo (RSA + AES)</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>TOR Demo (RSA + AES)</h1>
+      <p class="subtitle">Ce projet est une demonstration pedagogique d'un mini-flux TOR: annuaire de cles publiques, client/serveur echo chiffre, et premiers essais de routage en oignon via sockets.</p>
+    </header>
+    <main>
+      <h2>Objectifs</h2>
+      <ul>
+        <li>Illustrer RSA-OAEP pour proteger une cle AES ephemere.</li>
+        <li>Illustrer AES-256-GCM pour la confidentialite et l'integrite du message.</li>
+        <li>Montrer un annuaire (PKI simplifiee) avec fingerprint SHA-256.</li>
+      </ul>
+
+      <h2>Prerequis</h2>
+      <ul>
+        <li>Python 3.x</li>
+        <li>Paquet Python: <code>cryptography</code></li>
+      </ul>
+
+      <p>Installation rapide:</p>
+      <pre><code>pip install cryptography</code></pre>
+
+      <h2>Demarrage rapide</h2>
+      <p>Exemples avec le lanceur:</p>
+      <pre><code># 1) Mode demo (serveur + client dans un seul process)
+python main.py demo "Bonjour" "Test" "QUIT"
+
+# 2) Serveur seul (genere annuaire.json)
+python main.py server --annuaire-out annuaire.json
+
+# 3) Client seul (charge annuaire.json)
+python main.py client --annuaire-in annuaire.json "Salut" "QUIT"
+</code></pre>
+
+      <p>Pour plus de details:</p>
+      <ul>
+        <li>Utilisation: <a href="docs/usage.fr.html">docs/usage.fr.html</a></li>
+        <li>Architecture: <a href="docs/architecture.fr.html">docs/architecture.fr.html</a></li>
+        <li>Index des modules: <a href="docs/modules.fr.html">docs/modules.fr.html</a></li>
+        <li>Limites connues: <a href="docs/limitations.fr.html">docs/limitations.fr.html</a></li>
+      </ul>
+
+      <h2>Remarques</h2>
+      <p>Ce depot est destine a un contexte d'enseignement. La securite est simplifiee pour la lisibilite et la comprehension.</p>
+
+      <h2>Grille d'evaluation (suggestion)</h2>
+      <ul>
+        <li>Correction fonctionnelle: le flux demo fonctionne et l'echange chiffre est coherent.</li>
+        <li>Justification crypto: RSA-OAEP, AES-GCM, role du fingerprint SHA-256.</li>
+        <li>Structure logicielle: separation client/serveur/annuaire, lisibilite.</li>
+        <li>Reproductibilite: commandes de lancement claires et resultats attendus.</li>
+        <li>Limites connues: points d'attention et simplifications assumes.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

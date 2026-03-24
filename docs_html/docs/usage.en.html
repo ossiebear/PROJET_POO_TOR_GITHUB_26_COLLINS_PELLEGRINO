@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usage (EN)</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Usage (EN)</h1>
+    </header>
+    <main>
+      <h2>Main launcher</h2>
+      <p>The <a href="../main.py">main.py</a> file exposes three modes:</p>
+      <ul>
+        <li><code>demo</code>: starts server and client in one process.</li>
+        <li><code>server</code>: starts the server only.</li>
+        <li><code>client</code>: starts the client only.</li>
+      </ul>
+
+      <h3>Demo (recommended)</h3>
+      <pre><code>python main.py demo "Hello" "RSA protects" "QUIT"
+</code></pre>
+
+      <p>Example output (summary):</p>
+      <pre><code>=== TOR Demo ===
+Host: 127.0.0.1  Port: 6767  Server: ServeurEcho
+[ServeurEcho] En ecoute sur 127.0.0.1:6767
+[Client] Envoi : "Hello"
+[ServeurEcho] Message recu : "Hello"
+[Client] Reponse du serveur : "ECHO : Hello"
+</code></pre>
+
+      <h3>Server only</h3>
+      <pre><code>python main.py server --annuaire-out annuaire.json
+</code></pre>
+      <ul>
+        <li>The server registers its public key in the global annuaire.</li>
+        <li>The <code>annuaire.json</code> file is created for a separate client run.</li>
+      </ul>
+
+      <h3>Client only</h3>
+      <pre><code>python main.py client --annuaire-in annuaire.json "Hi" "QUIT"
+</code></pre>
+      <ul>
+        <li>The client loads the annuaire, retrieves the public key, verifies the fingerprint, and sends messages.</li>
+      </ul>
+
+      <h2>Practical notes</h2>
+      <ul>
+        <li><code>QUIT</code> stops the server.</li>
+        <li>The standalone scripts <a href="../TOR_client_v3.py">TOR_client_v3.py</a> and <a href="../TOR_serveur_v3.py">TOR_serveur_v3.py</a> include placeholder <code>hote</code> values if used outside the launcher.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

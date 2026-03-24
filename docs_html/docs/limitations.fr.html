@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Limites et points d'attention (FR)</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Limites et points d'attention (FR)</h1>
+    </header>
+    <main>
+      <h2>Fonctionnalites inachevees</h2>
+      <ul>
+        <li><code>OnionNode</code> est reference dans <a href="../onion_node_socket_v2.py">onion_node_socket_v2.py</a> mais n'existe pas dans le depot. Le prototype ne peut pas etre execute tel quel.</li>
+        <li><a href="../echo_server_socket_v2.py">echo_server_socket_v2.py</a> utilise <code>self._inner.handle(...)</code> sans initialiser <code>_inner</code>.</li>
+      </ul>
+
+      <h2>Simplifications cryptographiques</h2>
+      <ul>
+        <li>La reponse du serveur inclut la cle AES en clair (dans le JSON). C'est un choix pedagogique, pas un modele securise pour la production.</li>
+        <li>L'annuaire est en memoire; pour des processus separes il faut exporter/importer <code>annuaire.json</code>.</li>
+      </ul>
+
+      <h2>Configuration reseau</h2>
+      <ul>
+        <li><a href="../socket_transport.py">socket_transport.py</a> contient un <code>HOST</code> fixe (192.168.1.67) qui doit etre adapte a votre machine/ LAN.</li>
+        <li>Les scripts autonomes ont des valeurs <code>hote</code> a completer si vous ne passez pas par <a href="../main.py">main.py</a>.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

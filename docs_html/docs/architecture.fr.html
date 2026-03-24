@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture (FR)</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Architecture (FR)</h1>
+    </header>
+    <main>
+      <h2>Vue d'ensemble</h2>
+      <p>Le projet se compose de trois blocs:</p>
+      <ol>
+        <li>Annuaire de cles publiques (PKI simplifiee).</li>
+        <li>Client/serveur echo chiffre (RSA + AES-GCM).</li>
+        <li>Essai de routage en oignon via sockets (prototype).</li>
+      </ol>
+
+      <h2>Flux client/serveur (RSA + AES)</h2>
+      <ol>
+        <li>Le serveur genere une paire RSA et publie sa cle publique dans l'annuaire.</li>
+        <li>Le client recupere la cle publique et verifie son fingerprint SHA-256.</li>
+        <li>Le client genere une cle AES ephemere et chiffre le message avec AES-256-GCM.</li>
+        <li>Le client chiffre la cle AES avec RSA-OAEP et envoie un paquet JSON.</li>
+        <li>Le serveur dechiffre la cle AES (RSA), puis le message (AES-GCM).</li>
+        <li>Le serveur renvoie une reponse chiffree avec une nouvelle cle AES ephemere.</li>
+      </ol>
+
+      <h3>Diagramme de sequence (ASCII)</h3>
+      <pre><code>Client           Annuaire                 Serveur
+  |                 |                        |
+  |---obtenir_cle-->|                        |
+  |<--cle+fp--------|                        |
+  |---JSON (RSA+AES)----------------------->|
+  |<--reponse AES---------------------------|
+</code></pre>
+
+      <h3>Diagramme de composants (ASCII)</h3>
+      <pre><code>[main.py]
+  |  demo/server/client
+  v
+[Serveur] <---- TCP JSON ----> [Client]
+  |                              |
+  | enregistrer                  | obtenir_cle
+  v                              v
+            [Annuaire]
+</code></pre>
+
+      <h2>Annuaire (PKI simplifiee)</h2>
+      <ul>
+        <li>L'annuaire est un dictionnaire en memoire liant <code>nom -> (cle_pem, fingerprint)</code>.</li>
+        <li>Le fingerprint est un SHA-256 des octets PEM.</li>
+        <li>L'annuaire peut etre sauvegarde/charge en JSON (base64 pour PEM).</li>
+      </ul>
+
+      <h2>Routage en oignon (prototype)</h2>
+      <ul>
+        <li>Le fichier <a href="../onion_node_socket_v2.py">onion_node_socket_v2.py</a> propose une enveloppe socket pour un noeud Tor.</li>
+        <li>Il s'appuie sur un objet <code>OnionNode</code> non defini dans le depot.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

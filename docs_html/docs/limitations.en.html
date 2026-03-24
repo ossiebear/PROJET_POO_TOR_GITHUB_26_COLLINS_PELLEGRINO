@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Limitations and Known Issues (EN)</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Limitations and known issues (EN)</h1>
+    </header>
+    <main>
+      <h2>Incomplete features</h2>
+      <ul>
+        <li><code>OnionNode</code> is referenced in <a href="../onion_node_socket_v2.py">onion_node_socket_v2.py</a> but does not exist in this repository. The prototype cannot run as-is.</li>
+        <li><a href="../echo_server_socket_v2.py">echo_server_socket_v2.py</a> calls <code>self._inner.handle(...)</code> without initializing <code>_inner</code>.</li>
+      </ul>
+
+      <h2>Cryptographic simplifications</h2>
+      <ul>
+        <li>The server response includes the AES key in cleartext (inside JSON). This is pedagogical, not production-secure.</li>
+        <li>The annuaire is in-memory; for separate processes you must export/import <code>annuaire.json</code>.</li>
+      </ul>
+
+      <h2>Network configuration</h2>
+      <ul>
+        <li><a href="../socket_transport.py">socket_transport.py</a> has a hard-coded <code>HOST</code> (192.168.1.67) that must be adapted to your machine/LAN.</li>
+        <li>Standalone scripts include placeholder <code>hote</code> values if you do not use <a href="../main.py">main.py</a>.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture (EN)</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Architecture (EN)</h1>
+    </header>
+    <main>
+      <h2>Overview</h2>
+      <p>The project has three blocks:</p>
+      <ol>
+        <li>Public-key directory (simplified PKI).</li>
+        <li>Encrypted echo client/server (RSA + AES-GCM).</li>
+        <li>Onion routing via sockets (prototype).</li>
+      </ol>
+
+      <h2>Client/server flow (RSA + AES)</h2>
+      <ol>
+        <li>The server generates an RSA key pair and publishes its public key in the annuaire.</li>
+        <li>The client retrieves the public key and verifies its SHA-256 fingerprint.</li>
+        <li>The client generates an ephemeral AES key and encrypts the message with AES-256-GCM.</li>
+        <li>The client encrypts the AES key with RSA-OAEP and sends a JSON packet.</li>
+        <li>The server decrypts the AES key (RSA), then the message (AES-GCM).</li>
+        <li>The server returns a response encrypted with a new ephemeral AES key.</li>
+      </ol>
+
+      <h3>Sequence diagram (ASCII)</h3>
+      <pre><code>Client           Annuaire                 Serveur
+  |                 |                        |
+  |---obtenir_cle-->|                        |
+  |<--cle+fp--------|                        |
+  |---JSON (RSA+AES)----------------------->|
+  |<--AES response--------------------------|
+</code></pre>
+
+      <h3>Component diagram (ASCII)</h3>
+      <pre><code>[main.py]
+  |  demo/server/client
+  v
+[Serveur] <---- TCP JSON ----> [Client]
+  |                              |
+  | enregister                   | obtenir_cle
+  v                              v
+            [Annuaire]
+</code></pre>
+
+      <h2>Annuaire (simplified PKI)</h2>
+      <ul>
+        <li>The annuaire is an in-memory map of <code>name -> (pem, fingerprint)</code>.</li>
+        <li>The fingerprint is SHA-256 of the PEM bytes.</li>
+        <li>The annuaire can be saved/loaded as JSON (base64 for PEM).</li>
+      </ul>
+
+      <h2>Onion routing (prototype)</h2>
+      <ul>
+        <li>The <a href="../onion_node_socket_v2.py">onion_node_socket_v2.py</a> file wraps a Tor node with sockets.</li>
+        <li>It relies on an <code>OnionNode</code> object that is not defined in this repository.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

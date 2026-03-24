@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOR Demo (RSA + AES)</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>TOR Demo (RSA + AES)</h1>
+      <p class="subtitle">This project is an educational TOR-style demo: a public-key directory, an encrypted echo client/server, and early onion-routing socket experiments.</p>
+    </header>
+    <main>
+      <h2>Goals</h2>
+      <ul>
+        <li>Illustrate RSA-OAEP to protect an ephemeral AES key.</li>
+        <li>Illustrate AES-256-GCM for message confidentiality and integrity.</li>
+        <li>Show a simplified PKI annuaire with SHA-256 fingerprints.</li>
+      </ul>
+
+      <h2>Prerequisites</h2>
+      <ul>
+        <li>Python 3.x</li>
+        <li>Python package: <code>cryptography</code></li>
+      </ul>
+
+      <p>Quick install:</p>
+      <pre><code>pip install cryptography</code></pre>
+
+      <h2>Quick start</h2>
+      <p>Examples using the launcher:</p>
+      <pre><code># 1) Demo mode (server + client in one process)
+python main.py demo "Hello" "Test" "QUIT"
+
+# 2) Server only (writes annuaire.json)
+python main.py server --annuaire-out annuaire.json
+
+# 3) Client only (reads annuaire.json)
+python main.py client --annuaire-in annuaire.json "Hi" "QUIT"
+</code></pre>
+
+      <p>For details:</p>
+      <ul>
+        <li>Usage: <a href="docs/usage.en.html">docs/usage.en.html</a></li>
+        <li>Architecture: <a href="docs/architecture.en.html">docs/architecture.en.html</a></li>
+        <li>Module index: <a href="docs/modules.en.html">docs/modules.en.html</a></li>
+        <li>Known limitations: <a href="docs/limitations.en.html">docs/limitations.en.html</a></li>
+      </ul>
+
+      <h2>Notes</h2>
+      <p>This repository targets learning and demonstration. Security is simplified for clarity.</p>
+
+      <h2>Evaluation rubric (suggested)</h2>
+      <ul>
+        <li>Functional correctness: demo flow runs and encrypted exchange is consistent.</li>
+        <li>Crypto justification: RSA-OAEP, AES-GCM, role of SHA-256 fingerprints.</li>
+        <li>Software structure: separation of client/server/annuaire, readability.</li>
+        <li>Reproducibility: clear run commands and expected behavior.</li>
+        <li>Known limitations: stated constraints and simplifications.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

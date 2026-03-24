@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Utilisation (FR)</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Utilisation (FR)</h1>
+    </header>
+    <main>
+      <h2>Lanceur principal</h2>
+      <p>Le fichier <a href="../main.py">main.py</a> expose trois modes:</p>
+      <ul>
+        <li><code>demo</code>: lance serveur et client dans un seul process.</li>
+        <li><code>server</code>: lance uniquement le serveur.</li>
+        <li><code>client</code>: lance uniquement le client.</li>
+      </ul>
+
+      <h3>Demo (recommande)</h3>
+      <pre><code>python main.py demo "Bonjour" "RSA protege" "QUIT"
+</code></pre>
+
+      <p>Exemple de sortie (resume):</p>
+      <pre><code>=== TOR Demo ===
+Host: 127.0.0.1  Port: 6767  Server: ServeurEcho
+[ServeurEcho] En ecoute sur 127.0.0.1:6767
+[Client] Envoi : "Bonjour"
+[ServeurEcho] Message recu : "Bonjour"
+[Client] Reponse du serveur : "ECHO : Bonjour"
+</code></pre>
+
+      <h3>Serveur seul</h3>
+      <pre><code>python main.py server --annuaire-out annuaire.json
+</code></pre>
+      <ul>
+        <li>Le serveur enregistre sa cle publique dans l'annuaire global.</li>
+        <li>Le fichier <code>annuaire.json</code> est genere pour une execution client separee.</li>
+      </ul>
+
+      <h3>Client seul</h3>
+      <pre><code>python main.py client --annuaire-in annuaire.json "Salut" "QUIT"
+</code></pre>
+      <ul>
+        <li>Le client charge l'annuaire, recupere la cle publique, verifie le fingerprint, puis envoie les messages.</li>
+      </ul>
+
+      <h2>Notes pratiques</h2>
+      <ul>
+        <li><code>QUIT</code> stoppe le serveur.</li>
+        <li>Les scripts directs <a href="../TOR_client_v3.py">TOR_client_v3.py</a> et <a href="../TOR_serveur_v3.py">TOR_serveur_v3.py</a> ont des valeurs <code>hote</code> a completer si vous les utilisez en dehors du lanceur.</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>
