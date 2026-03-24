@@ -37,7 +37,7 @@ class Serveur:
 
     """
 
-    def __init__(self, hote="à compléter", port=à compléter, nom="ServeurEcho"):
+    def __init__(self, hote="à compléter", port=6767, nom="ServeurEcho"):
         self._hote  = hote
         self._port  = port
         self._nom   = nom
@@ -186,5 +186,5 @@ class Serveur:
 
 
 if __name__ == "__main__":
-    serveur = Serveur(hote="à compléter", port= a compléter, nom="ServeurEcho")
+    serveur = Serveur(hote="host", port=6767, nom="ServeurEcho")
     serveur.demarrer()
